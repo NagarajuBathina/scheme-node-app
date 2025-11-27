@@ -1,3 +1,4 @@
+// src/users/users.model.ts
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
 @Table({
@@ -8,34 +9,25 @@ import { Table, Column, Model, DataType } from 'sequelize-typescript';
 })
 export class Users extends Model {
   @Column({
+    field: 'user_id',
     type: DataType.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   })
-  user_id: number;
+  declare user_id: number;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  branch_id: number;
+  @Column({ type: DataType.STRING, allowNull: false })
+  declare name: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  name: string;
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  declare phone: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-    unique: true,
-  })
-  email: string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  declare password: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  password: string;
+  @Column({ type: DataType.STRING, allowNull: true })
+  declare address_line1: string;
+
+  @Column({ type: DataType.BOOLEAN, defaultValue: true })
+  declare status: boolean;
 }
