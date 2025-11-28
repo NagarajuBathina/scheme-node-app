@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/user-login.dto';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('users')
 export class UsersController {
@@ -20,6 +29,8 @@ export class UsersController {
     return this.usersService.getAllUsers(page, limit);
   }
 
+  @HttpCode(200)
+  @Throttle({ default: { limit: 3, ttl: 5000 } }) // 5 seconds
   @Post('login-user')
   loginUser(@Body() dto: LoginUserDto) {
     return this.usersService.loginUser(dto.phone, dto.password);
